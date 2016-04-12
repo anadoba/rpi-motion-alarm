@@ -23,14 +23,15 @@ public class MotionAlarm {
 
     private boolean isAudioPlaying = false;
 
-    private Timestamp startTime = new Timestamp(2016, 4, 12, 21, 0, 0, 0);
-    private Timestamp endTime = new Timestamp(2016, 4, 12, 22, 0, 0, 0);
+    private Timestamp startTime = new Timestamp(1460637000000L);
+    private Timestamp endTime = new Timestamp(1460644200000L);
 
     public MotionAlarm() {
         init();
     }
 
     private void init() {
+	led.setShutdownOptions(true, PinState.LOW);
         motionSensor.addTrigger(new GpioSyncStateTrigger(led));
         motionSensor.addTrigger(new GpioCallbackTrigger(new Callable<Void>() {
             public Void call() throws Exception {
@@ -49,7 +50,7 @@ public class MotionAlarm {
     }
 
     private boolean isTheRightTime() {
-        Timestamp now = new Timestamp(System.currentTimeMillis())
+        Timestamp now = new Timestamp(System.currentTimeMillis());
         return now.after(startTime) && now.before(endTime);
     }
 
@@ -62,8 +63,7 @@ public class MotionAlarm {
                 isAudioPlaying = false;
             }
         });
-        //player.play(2700);
-        System.out.println("\n\nZŁAPAŁO SIE!\n\n");
+        player.play(2700);
         isAudioPlaying = true;
     }
 }
